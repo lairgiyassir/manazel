@@ -18,15 +18,14 @@ HIJRI_MONTH_TO_NUMBER = {
 }
 
 def main():
-    st.title("Moroccan Hilal Checker")
+    st.title("Manazel Project - Moroccan Hilal Checker ")
+    st.markdown( "مشروع منازل - احتمالية رؤية الهلال في المغرب لتحديد بداية الشهر الهجري ")
     st.markdown(
         """
-        This application allows you to select a Hijri year and month,
-        then computes the corresponding **Gregorian date** for the **first day**
-        of that Hijri month based on the Moroccan Hilal Visibility Model.
+        This application allows you to select a Hijri year and month, then predicts the **first day** 
+        of that Hijri month based on a pretrained AI model that estimates the visibility of the hilal in Morocco.
         """
     )
-
     # User inputs: Hijri year and month
     hijri_year = st.number_input("Hijri Year", min_value=1300, max_value=1600, value=1444, step=1)
     hijri_months = list(HIJRI_MONTH_TO_NUMBER.keys())
@@ -44,7 +43,7 @@ def main():
                 hijri_month_name, 
             )
             st.success(
-                f"The computed Gregorian date for {hijri_year}/{hijri_month_name}/1 is: "
+                f"The computed date for the 1str {hijri_month_name} - {hijri_year} is: "
                 f"{miladi_year:04d}-{miladi_month:02d}-{miladi_day:02d}"
             )
         except ValueError as ve:
