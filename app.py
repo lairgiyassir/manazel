@@ -18,12 +18,17 @@ HIJRI_MONTH_TO_NUMBER = {
 }
 
 def main():
-    st.title("Manazel Project - Moroccan Hilal Checker ")
-    st.markdown( "مشروع منازل - احتمالية رؤية الهلال في المغرب لتحديد بداية الشهر الهجري ")
+    st.title("🇲🇦 Manazel Project - Moroccan Hilal Checker 🇲🇦")
+    st.markdown( "مشروع منازل لإحتمالية رؤية الهلال في المغرب لتحديد بداية الشهر الهجري ")
     st.markdown(
         """
         This application allows you to select a Hijri year and month, then predicts the **first day** 
         of that Hijri month based on a pretrained AI model that estimates the visibility of the hilal in Morocco.
+        """
+    )
+    st.markdown(
+        """
+        Disclaimer : this is an AI prediction and not an official annoucement, please refer to the official authorities for the official date.
         """
     )
     # User inputs: Hijri year and month
@@ -33,7 +38,7 @@ def main():
     hijri_month_name = st.selectbox("Hijri Month", hijri_months, index=hijri_months.index("Ramadan"))
 
     # Button to trigger computation
-    if st.button("Compute Miladi Date"):
+    if st.button("Predict the beginning of the month"):
         checker = MoroccanHilalChecker()
         try:
             # Make sure you've already loaded `mor_hilal_vis_model` somewhere,
@@ -43,7 +48,7 @@ def main():
                 hijri_month_name, 
             )
             st.success(
-                f"The computed date for the 1str {hijri_month_name} - {hijri_year} is: "
+                f"The computed date for the first {hijri_month_name} - {hijri_year} is : "
                 f"{miladi_year:04d}-{miladi_month:02d}-{miladi_day:02d}"
             )
         except ValueError as ve:

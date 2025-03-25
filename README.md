@@ -1,4 +1,4 @@
-# Manazel Project
+# Manazel Project  = مشروع منازل
 
 The **Manazel Project** aims to accurately determine the beginning of each Hijri month in Morocco by analyzing 13 years of crescent visibility data and tuning the ODEH criterion using **ARCV** and **W_tot** features. This approach, combined with a random forest machine learning model, achieves **96% accuracy** in predicting the start of the Hijri month.
 
