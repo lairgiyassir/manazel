@@ -73,6 +73,30 @@ Below is the classification report for our **random forest** model, demonstratin
    macro avg       0.96      0.97      0.96        52
 weighted avg       0.96      0.96      0.96        52
 ```
+
+## Explanation of the Algorithm
+
+1. **Initial Gregorian Conversion:**
+   - Set the day to `1` and convert the Hijri date (year, month, day) to a Gregorian date. This transformation sets in default the hijri month duration to 29 days.
+   - This Gregorian date is used as a baseline for further calculations.
+
+2. **Iterative Hilal Visibility Check:**
+   - Begin with an offset of `-1` day to check the day before the converted Gregorian date.
+   - For each iteration:
+     - Calculate the "doubt night" by adding the current offset to the base Gregorian date.
+     - Compute the necessary astronomical parameters (e.g., ARCV, W_topo) for a fixed location (Rabat).
+     - Use these parameters as input for a predictive model that checks if the hilal is visible (model returns `1` if visible).
+     - Increase the day offset and iteration counter.
+     - The loop continues until the model confirms hilal visibility or a set maximum number of iterations is reached.
+
+3. **Determining the First Day of the Month:**
+   - Once the hilal is detected (model outputs `1`), the first day of the Hijri month is determined by taking the next day after the "doubt night."
+
+4. **Error Handling:**
+   - If the maximum iteration limit is reached without detecting the hilal, the algorithm raises a runtime error, ensuring that it does not loop indefinitely.
+
+This method ensures that the Gregorian date returned accurately reflects the first day of the Hijri month based on actual crescent visibility conditions in Morocco.
+
 ## Acknowledgements:
 The Manazel project is based on the incredible work https://github.com/crescent-moon-visibility/crescent-moon-visibility and https://github.com/cosinekitty/astronomy/tree/master/source/python 
 
