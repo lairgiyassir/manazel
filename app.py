@@ -18,24 +18,21 @@ HIJRI_MONTH_TO_NUMBER = {
 }
 
 def main():
-    st.title("🇲🇦 Manazel Project - Moroccan Hilal Checker 🇲🇦")
-    st.markdown( "مشروع منازل لإحتمالية رؤية الهلال في المغرب لتحديد بداية الشهر الهجري ")
+    st.title("🇲🇦 Manazel Project")
+    st.markdown( "مشروع منازل لتحديد بداية الشهر الهجري في المغرب انطلاقا من حتمالية رؤية الهلال. لا تنسونا من خالص دعائكم")
     st.markdown(
         """
         This application allows you to select a Hijri year and month, then predicts the **first day** 
         of that Hijri month based on a pretrained AI model that estimates the visibility of the hilal in Morocco.
         """
     )
-    st.markdown(
-        """
-        Disclaimer : this is an AI prediction and not an official annoucement, please refer to the official authorities for the official date.
-        """
-    )
+    st.info("Disclaimer : This is an AI prediction and not an official annoucement, please refer to the official authorities for the official date.")
+
     # User inputs: Hijri year and month
-    hijri_year = st.number_input("Hijri Year", min_value=1300, max_value=1600, value=1444, step=1)
+    hijri_year = st.number_input("Hijri Year", min_value=1300, max_value=1600, value=1446, step=1)
     hijri_months = list(HIJRI_MONTH_TO_NUMBER.keys())
     # Use a selectbox for a dropdown list of valid months
-    hijri_month_name = st.selectbox("Hijri Month", hijri_months, index=hijri_months.index("Ramadan"))
+    hijri_month_name = st.selectbox("Hijri Month", hijri_months, index=hijri_months.index("Shawwal"))
 
     # Button to trigger computation
     if st.button("Predict the beginning of the month"):
@@ -48,7 +45,7 @@ def main():
                 hijri_month_name, 
             )
             st.success(
-                f"The computed date for the first {hijri_month_name} - {hijri_year} is : "
+                f"The predicted date for the first {hijri_month_name} {hijri_year} is ➡️ "
                 f"{miladi_year:04d}-{miladi_month:02d}-{miladi_day:02d}"
             )
         except ValueError as ve:

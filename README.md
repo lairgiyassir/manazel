@@ -1,6 +1,8 @@
-# Manazel Project  = مشروع منازل
+![aya](docs/36-39.png)
 
-The **Manazel Project** aims to accurately determine the beginning of each Hijri month in Morocco by analyzing 13 years of crescent visibility data and tuning the ODEH criterion using **ARCV** and **W_tot** features. This approach, combined with a random forest machine learning model, achieves **96% accuracy** in predicting the start of the Hijri month.
+# 🇲🇦 Manazel Project ____ مشروع منازل
+
+The **Manazel Project** aims to accurately determine the beginning of each Hijri month in Morocco 🇲🇦 by analyzing 13 years of crescent visibility data and tuning the ODEH criterion using **ARCV** and **W_tot** features. This approach, combined with a random forest machine learning model, achieves **96% accuracy** in predicting the start of the Hijri month.
 
 ## ODEH Criterion in Morocco - Distribution of Moroccan Crescent Visibility Announcements.
 
@@ -24,7 +26,7 @@ The new criterion proposed by Mohammad Odeh is based on two key astronomical par
 - **Definition:**  
   W_tot measures the width of the illuminated portion of the lunar crescent along its diameter, expressed in arc minutes.
 - **Significance:**  
-  This parameter serves as a reliable indicator of the intrinsic brightness of the crescent, which is more directly related to visibility than the Moon’s age.
+  This parameter serves as a reliable indicator of the intrinsic brightness of the crescent.
 
 ### Visibility Codes Determination
 
@@ -73,3 +75,9 @@ weighted avg       0.96      0.96      0.96        52
 ```
 ## Acknowledgements:
 The Manazel project is based on the incredible work https://github.com/crescent-moon-visibility/crescent-moon-visibility and https://github.com/cosinekitty/astronomy/tree/master/source/python 
+
+## Contributions
+We welcome contributions from the community!
+
+## Final Remark
+Do not forget us from your douaa.
