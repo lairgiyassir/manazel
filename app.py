@@ -1,6 +1,13 @@
 import streamlit as st
 from moroccan_hilal_checker import MoroccanHilalChecker
 
+st.set_page_config(
+    page_title="Manazel Project",
+    page_icon="🇲🇦",
+    layout="wide"
+)
+
+
 # For the select box, we need a list of valid Hijri month names.
 HIJRI_MONTH_TO_NUMBER = {
     "Muharram": 1,
