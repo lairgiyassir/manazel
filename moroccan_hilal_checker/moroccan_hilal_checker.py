@@ -55,10 +55,9 @@ class MoroccanHilalChecker:
         if hijri_month is None:
             raise ValueError(f"Invalid Hijri month name: {hijri_month_name}")
 
-        # Assume the hilal is checked on the first day of the month.
         hijri_day = 1
 
-        # Convert the Hijri date to a Gregorian date.
+        # Convert the first theoretical Hijri date to a Gregorian date to use it to get the date of 29th of the previous month.
         gregorian_date = convert.Hijri(hijri_year, hijri_month, hijri_day).to_gregorian()
 
         prediction = 0
@@ -68,6 +67,8 @@ class MoroccanHilalChecker:
 
         while prediction != 1 and iterations < max_iterations:
             # Compute the "doubt night" by subtracting day_offset from the computed Gregorian date.
+            # We start from the 29th of the previous month to see if the crescent is visible.
+            # Otherwise we will see it on the 30th.
             doubt_night = astronomy.Time.Make(
                 gregorian_date.year,
                 gregorian_date.month,
@@ -75,7 +76,7 @@ class MoroccanHilalChecker:
                 0, 0, 0
             ).AddDays(day_offset)
             
-            # Calculate astronomical parameters needed for prediction.
+            # Calculate astronomical parameters needed for prediction. The lat and long are set to Rabat.
             utc_time = doubt_night.Utc()
             parameters = calculate(
                 base_time=astronomy.Time.Make(utc_time.year, utc_time.month, utc_time.day, 0, 0, 0),
@@ -97,7 +98,7 @@ class MoroccanHilalChecker:
         if iterations == max_iterations:
             raise RuntimeError("Failed to determine the correct hilal date within the maximum number of iterations.")
 
-        # The first day of the month is the day after the last "doubt night" that didn't meet the condition.
+        # The first day of the month is the day after the last day the hilal where the hilal is visible.
         first_day_of_the_month = doubt_night.AddDays(1)
         utc_first_day = first_day_of_the_month.Utc()
         return (utc_first_day.year, utc_first_day.month, utc_first_day.day)
