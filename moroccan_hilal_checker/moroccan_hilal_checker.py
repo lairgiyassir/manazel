@@ -21,7 +21,7 @@ HIJRI_MONTH_TO_NUMBER = {
 }
 
 CURRENT_DIR = Path(__file__).resolve().parent
-MODEL_PATH = CURRENT_DIR / ".." / "models" / "moroccan_hilal_visibility_model.pkl"
+MODEL_PATH = CURRENT_DIR / ".." / "models" / "logistic_regression_model.pkl"
 MODEL_PATH = MODEL_PATH.resolve()
 
 # Load the model
