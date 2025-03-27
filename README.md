@@ -2,7 +2,7 @@
 
 # 🇲🇦 Manazel Project ____ مشروع منازل
 
-The **Manazel Project** aims to accurately determine the beginning of each Hijri month in Morocco 🇲🇦 by analyzing 13 years of crescent visibility data and tuning the ODEH criterion using **ARCV** and **W_tot** features. This approach, combined with a random forest machine learning model, achieves **96% accuracy** in predicting the start of the Hijri month.
+The **Manazel Project** aims to accurately determine the beginning of each Hijri month in Morocco 🇲🇦 by analyzing 13 years of crescent visibility data and tuning the ODEH criterion using **ARCV** and **W_tot** features. This approach, combined with logistic regression learning model, achieves **98.83% accuracy** in predicting the start of the Hijri month.
 
 ## ODEH Criterion in Morocco - Distribution of Moroccan Crescent Visibility Announcements.
 
@@ -61,17 +61,12 @@ This method allowed us to compile a balanced and meaningful dataset, which was t
 
 ## Model Performance
 
-Below is the classification report for our **random forest** model, demonstrating **96% accuracy** on the test set:
+Below is the grid search with cross validation report for our **logistic regression** model, demonstrating **98.83% accuracy** :
 
 ```
-              precision    recall  f1-score   support
-
-           0       0.92      1.00      0.96        23
-           1       1.00      0.93      0.96        29
-
-    accuracy                           0.96        52
-   macro avg       0.96      0.97      0.96        52
-weighted avg       0.96      0.96      0.96        52
+Logistic Regression:
+  Best Params: {'C': 100, 'solver': 'lbfgs'}
+  Overall CV Accuracy: 0.9883
 ```
 
 ## Explanation of the Algorithm
@@ -99,6 +94,8 @@ This method ensures that the Gregorian date returned accurately reflects the fir
 
 ## Acknowledgements:
 The Manazel project is based on the incredible work https://github.com/crescent-moon-visibility/crescent-moon-visibility and https://github.com/cosinekitty/astronomy/tree/master/source/python 
+
+This project would not have been possible without the dedication of Chaymae Majdoubi, who gathered and curated the crescent visibility dataset of Morocco over the past 13 years.
 
 ## Contributions
 We welcome contributions from the community!
