@@ -2,6 +2,8 @@ import streamlit as st
 from moroccan_hilal_checker import MoroccanHilalChecker
 from hijri_converter import convert
 from datetime import datetime, timedelta
+import pandas as pd
+import io
 
 st.set_page_config(
     page_title="Manazel Project",
@@ -33,6 +35,31 @@ HIJRI_MONTH_TO_NUMBER = {
 current_date = datetime.now()
 month_hijri = convert.Gregorian(current_date.year, current_date.month, 1).to_hijri()
 
+def generate_predictions_for_year(hijri_year):
+    checker = MoroccanHilalChecker()
+    predictions = []
+    
+    for month_name in HIJRI_MONTH_TO_NUMBER.keys():
+        try:
+            miladi_year, miladi_month, miladi_day, probability = checker.get_miladi_day_for_hilal(
+                hijri_year,
+                month_name,
+                probability_threshold=HIGH_CONFIDENCE_THRESHOLD
+            )
+            predictions.append({
+                'Hijri Month': month_name,
+                'Predicted Date': f"{miladi_year:04d}-{miladi_month:02d}-{miladi_day:02d}",
+                'Confidence': f"{probability * 100:.2f}%"
+            })
+        except Exception as e:
+            predictions.append({
+                'Hijri Month': month_name,
+                'Predicted Date': 'Error',
+                'Confidence': str(e)
+            })
+    
+    return pd.DataFrame(predictions)
+
 def main():
     st.title("🇲🇦 Manazel Project")
     st.markdown( "مشروع منازل لتحديد بداية الشهر الهجري في المغرب انطلاقا من حتمالية رؤية الهلال. لا تنسونا من خالص دعائكم")
@@ -50,7 +77,8 @@ def main():
     # Use a selectbox for a dropdown list of valid months
     hijri_month_name = st.selectbox("Hijri Month", hijri_months, index=hijri_months.index(hijri_months[month_hijri.month]))
 
-    # Button to trigger computation
+    
+    # Button to trigger computation for single month
     if st.button("Predict the beginning of the month"):
         checker = MoroccanHilalChecker()
         try:
@@ -86,6 +114,25 @@ def main():
             st.error(f"RuntimeError: {re}")
         except Exception as e:
             st.error(f"An unexpected error occurred: {e}")
+    
+    # Add download button for all months
+    if st.button("Download Predictions for All Months For This Year"):
+        with st.spinner("Generating predictions for all months..."):
+            df = generate_predictions_for_year(hijri_year)
+            
+            # Create Excel file in memory
+            output = io.BytesIO()
+            with pd.ExcelWriter(output, engine='xlsxwriter') as writer:
+                df.to_excel(writer, sheet_name='Predictions', index=False)
+            
+            # Create download button
+            st.download_button(
+                label="Download Excel File",
+                data=output.getvalue(),
+                file_name=f"hilal_predictions_{hijri_year}.xlsx",
+                mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+            )
+
 
 if __name__ == "__main__":
     main()
