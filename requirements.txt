@@ -5,3 +5,4 @@ pandas==2.2.3
 streamlit==1.43.2
 tqdm==4.67.1
 scikit-learn
+xlsxwriter
