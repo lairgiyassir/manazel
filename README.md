@@ -4,6 +4,7 @@
 
 The **Manazel Project** aims to accurately determine the beginning of each Hijri month in Morocco 🇲🇦 by analyzing 13 years of crescent visibility data and tuning the ODEH criterion using **ARCV** and **W_tot** features. This approach, combined with logistic regression learning model, achieves **98.83% accuracy** in predicting the start of the Hijri month.
 
+
 ## ODEH Criterion in Morocco - Distribution of Moroccan Crescent Visibility Announcements.
 
 ![Distribution of Moroccan Crescent Visibility Announcements](docs/crescent_visibility_distribution.png)
