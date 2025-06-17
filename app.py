@@ -75,15 +75,13 @@ def main():
     hijri_year = st.number_input("Hijri Year", min_value=month_hijri.year, max_value=1600, value=month_hijri.year, step=1)
     hijri_months = list(HIJRI_MONTH_TO_NUMBER.keys())
     # Use a selectbox for a dropdown list of valid months
-    hijri_month_name = st.selectbox("Hijri Month", hijri_months, index=hijri_months.index(hijri_months[month_hijri.month]))
+    hijri_month_name = st.selectbox("Hijri Month", hijri_months, index=hijri_months.index(hijri_months[month_hijri.month-1]))
 
     
     # Button to trigger computation for single month
     if st.button("Predict the beginning of the month"):
         checker = MoroccanHilalChecker()
         try:
-            # Make sure you've already loaded `mor_hilal_vis_model` somewhere,
-            # or import it from wherever you defined it.
             miladi_year, miladi_month, miladi_day, probability = checker.get_miladi_day_for_hilal(
                 hijri_year, 
                 hijri_month_name,
