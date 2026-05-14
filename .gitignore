@@ -8,7 +8,7 @@ __pycache__/
 *.so
 
 data/
-
+.tmp*/
 # Distribution / packaging
 .Python
 build/
