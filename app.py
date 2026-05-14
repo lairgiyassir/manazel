@@ -8,6 +8,7 @@ from moroccan_hilal_checker.details import (
     build_details_figure,
     format_knn_vote_paragraph,
     load_dataset,
+    neighbours_display_table,
 )
 from hijri_converter import convert
 from datetime import datetime
@@ -75,6 +76,16 @@ def _cached_hilal_dataset():
     return load_dataset()
 
 
+def _render_knn_neighbour_table(title: str, knn: dict | None) -> None:
+    """Show labels of the k closest training rows only (closest first, top row)."""
+    if not knn or knn.get("neighbours") is None:
+        return
+    tbl = neighbours_display_table(knn["neighbours"])
+    mixed = knn["votes_1"] > 0 and knn["votes_0"] > 0
+    with st.expander(title, expanded=mixed):
+        st.dataframe(tbl, hide_index=True, use_container_width=True)
+
+
 def _render_details_section(
     miladi_year: int,
     miladi_month: int,
@@ -120,6 +131,16 @@ def _render_details_section(
     knn_paragraph = format_knn_vote_paragraph(knn_d1, knn_d2, d1=d1, d2=d2, k=5)
     if knn_paragraph:
         st.markdown(knn_paragraph)
+
+    k_knn = int(det.get("k", 5))
+    _render_knn_neighbour_table(
+        f"D-1 — {k_knn} closest historical nights (doubt night {d1.isoformat()})",
+        knn_d1,
+    )
+    _render_knn_neighbour_table(
+        f"D-2 — {k_knn} closest historical nights ({d2.isoformat()})",
+        knn_d2,
+    )
 
     if knn_d2 is None:
         st.caption("D-2: Odeh parameters unavailable for that Gregorian date.")
@@ -194,8 +215,7 @@ def main():
                 st.warning(
                     f''' ⚠️ This month is tricky! The model predicts {miladi_year:04d}-{miladi_month:02d}-{miladi_day:02d} 
                     with {probability * 100:.2f}% confidence.
-                    \nDepending on the moroccan historical confidence rates, consider the next day 
-                    ({next_year:04d}-{next_month:02d}-{next_day:02d}) with {next_probability * 100:.2f}% confidence.'''
+                    \nLook at the final verdict at the bottom of the page.'''
                 )
                 st.session_state["last_prediction"] = {
                     "miladi_year": miladi_year,

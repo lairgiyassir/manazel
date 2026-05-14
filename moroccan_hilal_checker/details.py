@@ -120,6 +120,17 @@ def knn_predict(
     }
 
 
+def neighbours_display_table(nn: pd.DataFrame) -> pd.DataFrame:
+    """
+    Labels of the k nearest training rows only (for Streamlit).
+
+    Rows are sorted closest-first in z-scored (ARCV, W_topo) space; values are
+    dataset output 0 or 1 (1 = next-day month start in the training record).
+    """
+    t = nn.sort_values("_d", ascending=True)
+    return pd.DataFrame({"label": t["output"].astype(int).to_numpy()}).reset_index(drop=True)
+
+
 def format_knn_vote_paragraph(
     knn_d1: Optional[Dict[str, Any]],
     knn_d2: Optional[Dict[str, Any]],
@@ -238,6 +249,7 @@ def build_details_figure(
         "doubt_night_d2": (d2.year, d2.month, d2.day),
         "d1": d1,
         "d2": d2,
+        "k": k,
         "knn_d1": None,
         "knn_d2": None,
         "point_d1": None,
@@ -298,7 +310,7 @@ def build_details_figure(
             zorder=4,
         )
 
-    # D-2 overlay (orange diamond) + KNN lines
+    # D-2 overlay (orange star) + KNN lines
     pt2 = compute_arcv_wtopo(d2.year, d2.month, d2.day, latitude=latitude, longitude=longitude)
     if pt2 is not None:
         arcv2, w2 = pt2
@@ -309,8 +321,8 @@ def build_details_figure(
         ax.scatter(
             [arcv2],
             [w2],
-            s=105,
-            marker="D",
+            s=185,
+            marker="*",
             c="#ff7f0e",
             edgecolors="black",
             linewidths=0.75,
