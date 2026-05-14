@@ -179,7 +179,7 @@ def _render_details_section(
 
 def main():
     st.title("🇲🇦 Manazel Project")
-    st.markdown( "مشروع منازل لتحديد بداية الشهر الهجري في المغرب انطلاقا من حتمالية رؤية الهلال. لا تنسونا من خالص دعائكم")
+    st.markdown( "مشروع منازل لتحديد بداية الشهر الهجري في المغرب انطلاقا من احتمالية رؤية الهلال. لا تنسونا من خالص دعائكم")
     st.markdown(
         """
         This application allows you to select a Hijri year and month, then predicts the **first day** 
