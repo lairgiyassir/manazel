@@ -51,17 +51,17 @@ def load_dataset(path: Optional[Path] = None) -> pd.DataFrame:
 
 
 def apply_scientific_style() -> None:
-    """Publication-friendly matplotlib defaults."""
+    """Publication-friendly matplotlib defaults (compact for Streamlit Details)."""
     mpl.rcParams.update(
         {
             "figure.dpi": 120,
             "savefig.dpi": 300,
-            "font.size": 11,
-            "axes.labelsize": 12,
-            "axes.titlesize": 13,
-            "xtick.labelsize": 10,
-            "ytick.labelsize": 10,
-            "legend.fontsize": 10,
+            "font.size": 9,
+            "axes.labelsize": 10,
+            "axes.titlesize": 10,
+            "xtick.labelsize": 8,
+            "ytick.labelsize": 8,
+            "legend.fontsize": 8,
             "axes.linewidth": 1.0,
             "xtick.direction": "in",
             "ytick.direction": "in",
@@ -205,16 +205,16 @@ def build_details_figure(
     positive = df.loc[df["output"] == 1].copy()
     negative = df.loc[df["output"] == 0].copy()
 
-    fig, ax = plt.subplots(figsize=(7.0, 5.9), constrained_layout=False)
+    fig, ax = plt.subplots(figsize=(4.5, 3.6), constrained_layout=False)
 
     if not negative.empty:
         ax.scatter(
             negative["arcv"],
             negative["W_topo"],
-            s=40,
+            s=32,
             c="#c41e3a",
             edgecolors="white",
-            linewidths=0.6,
+            linewidths=0.5,
             alpha=0.8,
             zorder=2,
             label=rf"Other ($n={len(negative)}$, output = 0)",
@@ -223,10 +223,10 @@ def build_details_figure(
         ax.scatter(
             positive["arcv"],
             positive["W_topo"],
-            s=42,
+            s=34,
             c="#0b3d91",
             edgecolors="white",
-            linewidths=0.6,
+            linewidths=0.5,
             alpha=0.85,
             zorder=2,
             label=rf"Next-day start ($n={len(positive)}$, output = 1)",
@@ -258,11 +258,11 @@ def build_details_figure(
         ax.scatter(
             [arcv1],
             [w1],
-            s=240,
+            s=190,
             marker="*",
             c="#f5b301",
             edgecolors="black",
-            linewidths=1.0,
+            linewidths=0.85,
             zorder=6,
             label=lbl1,
         )
@@ -270,10 +270,10 @@ def build_details_figure(
             d1.isoformat(),
             (arcv1, w1),
             textcoords="offset points",
-            xytext=(8, 8),
-            fontsize=9,
+            xytext=(6, 6),
+            fontsize=7.5,
             ha="left",
-            bbox=dict(boxstyle="round,pad=0.25", facecolor="white", edgecolor="0.5", alpha=0.92),
+            bbox=dict(boxstyle="round,pad=0.2", facecolor="white", edgecolor="0.5", alpha=0.92),
             zorder=7,
         )
         for _, row in knn1["neighbours"].iterrows():
@@ -290,10 +290,10 @@ def build_details_figure(
         ax.scatter(
             nbr1["arcv"],
             nbr1["W_topo"],
-            s=160,
+            s=125,
             facecolors="none",
             edgecolors="#2ca02c",
-            linewidths=1.35,
+            linewidths=1.1,
             alpha=0.9,
             zorder=4,
         )
@@ -309,11 +309,11 @@ def build_details_figure(
         ax.scatter(
             [arcv2],
             [w2],
-            s=130,
+            s=105,
             marker="D",
             c="#ff7f0e",
             edgecolors="black",
-            linewidths=0.9,
+            linewidths=0.75,
             zorder=6,
             label=lbl2,
         )
@@ -321,10 +321,10 @@ def build_details_figure(
             d2.isoformat(),
             (arcv2, w2),
             textcoords="offset points",
-            xytext=(8, -14),
-            fontsize=9,
+            xytext=(6, -12),
+            fontsize=7.5,
             ha="left",
-            bbox=dict(boxstyle="round,pad=0.25", facecolor="white", edgecolor="0.5", alpha=0.92),
+            bbox=dict(boxstyle="round,pad=0.2", facecolor="white", edgecolor="0.5", alpha=0.92),
             zorder=7,
         )
         for _, row in knn2["neighbours"].iterrows():
@@ -341,10 +341,10 @@ def build_details_figure(
         ax.scatter(
             nbr2["arcv"],
             nbr2["W_topo"],
-            s=150,
+            s=120,
             facecolors="none",
             edgecolors="#9467bd",
-            linewidths=1.35,
+            linewidths=1.1,
             alpha=0.9,
             zorder=4,
         )
@@ -355,7 +355,18 @@ def build_details_figure(
     if hijri_year is not None and hijri_month_name:
         title += f"\nHijri context: {hijri_month_name} {hijri_year} — predicted 1st day (Gregorian): {D.isoformat()}"
     ax.set_title(title)
-    ax.legend(frameon=True, fancybox=False, edgecolor="0.6", loc="best")
+    ax.legend(
+        frameon=True,
+        fancybox=False,
+        edgecolor="0.6",
+        loc="best",
+        fontsize=7.5,
+        labelspacing=0.35,
+        handlelength=1.0,
+        handletextpad=0.4,
+        borderpad=0.35,
+        markerscale=0.55,
+    )
     fig.subplots_adjust(left=0.1, right=0.97, top=0.90, bottom=0.12)
 
     return fig, details
